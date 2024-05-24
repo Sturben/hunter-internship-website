@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunter's Internship</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-image: url('C:/Users/Hunter John/OneDrive/Documents/school/pdfs/proxy-image (1).jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+        }
+        header p {
+            font-size: 1.5em;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: white;
+            padding: 15px 0;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #007BFF;
+        }
+        nav:hover {
+            background-color: rgba(0, 0, 0, 1);
+        }
+        .container {
+            width: 80%;
+            margin: 120px auto 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            padding-top: 60px; /* Add padding to ensure content is not hidden behind nav */
+        }
+        .content {
+            flex: 2;
+            padding: 20px;
+        }
+        .content h2 {
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+        .sidebar {
+            flex: 1;
+            padding: 20px;
+        }
+        .sidebar img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .blog-entry {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .gallery-item {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc(33.333% - 20px);
+            box-sizing: border-box;
+        }
+        .gallery-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .gallery-item p {
+            margin-top: 10px;
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+
+        /* Media Queries */
+        @media (max-width: 1200px) {
+            .container {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            nav {
+                flex-direction: column;
+            }
+            nav a {
+                padding: 10px;
+                margin: 0;
+            }
+            .container {
+                flex-direction: column;
+            }
+            .content, .sidebar {
+                flex: 1 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 50px 20px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            header p {
+                font-size: 1.2em;
+            }
+            .gallery-item {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gallery-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hunter's Internship</h1>
+        <p>Phytoplankton Image Classification</p>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#weekly-blogs">Weekly Blogs</a>
+        <a href="#gallery">Gallery</a>
+    </nav>
+    <div class="container" id="home">
+        <div class="content">
+            <h2>The Internship Experience</h2>
+            <p>Hello, and welcome to my internship website! My name is Hunter John, and I want to study engineering with a focus on biomedical engineering. I am currently interning at the J. Craig Venter Institute (JCVI). My ultimate goal for this internship is to explore career options, and I believe this internship will help clarify my path in engineering or perhaps reveal new possibilities in technology and healthcare.</p>
+        </div>
+        <div class="sidebar">
+            <img src="C:/Users/Hunter John/OneDrive/Documents/school/pdfs/image.png" alt="JCVI Building">
+        </div>
+    </div>
+    <div class="container" id="what-im-doing">
+        <div class="sidebar">
+            <img src="C:/Users/Hunter John/OneDrive/Documents/school/pdfs/proxy-image.jpg" alt="Diatoms">
+        </div>
+        <div class="content">
+            <h2>What I'm Doing</h2>
+            <p>At my internship at the J. Craig Venter Institute (JCVI), I am involved in a project focused on the image classification of phytoplankton, specifically concentrating on diatoms and monitoring algal blooms. My role includes using advanced imaging and computational techniques to analyze images of these microorganisms. The data collected helps in identifying and cataloging different species of diatoms, which are a key component of phytoplankton and play a crucial role in aquatic ecosystems.</p>
+            <p>Additionally, my work assists in tracking and studying the development of algal blooms, which can have significant environmental impacts, such as affecting water quality and marine life. This involves applying mathematical models and machine learning algorithms to improve the detection and understanding of these phenomena, supporting broader environmental research and management efforts.</p>
+        </div>
+    </div>
+    <div class="container" id="weekly-blogs">
+        <div class="content">
+            <h2>Weekly Blogs</h2>
+            <div class="blog-entry">
+                <h3>Week 1</h3>
+                <p>Blog content for week 1...</p>
+            </div>
+            <div class="blog-entry">
+                <h3>Week 2</h3>
+                <p>Blog content for week 2...</p>
+            </div>
+            <!-- Add more blog entries as needed -->
+        </div>
+    </div>
+    <div class="container" id="gallery">
+        <div class="content">
+            <h2>Gallery</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="path/to/your/image3.jpg" alt="Gallery Image 1">
+                    <p>Brief description of image 1</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="path/to/your/image4.jpg" alt="Gallery Image 2">
+                    <p>Brief description of image 2</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="path/to/your/image5.jpg" alt="Gallery Image 3">
+                    <p>Brief description of image 3</p>
+                </div>
+                <!-- Add more gallery items as needed -->
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Hunter John</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
