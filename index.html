@@ -420,6 +420,34 @@ a:hover{color:#fff}
   color:var(--ink-soft);
 }
 
+/* ---------- Button ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:.6rem;
+  margin-top:1.75rem;
+  padding:.8rem 1.35rem;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(94,234,212,.09);
+  color:var(--accent);
+  font-family:var(--sans);
+  font-size:.9375rem;
+  font-weight:500;
+  text-decoration:none;
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease;
+}
+.btn:hover{background:rgba(94,234,212,.16);border-color:var(--accent-deep);color:#fff}
+.btn svg{width:16px;height:16px;flex:0 0 auto}
+
+.why{
+  margin:0 0 1.15em;
+  padding-left:1.15rem;
+  color:var(--ink-soft);
+}
+.why li{margin-bottom:.3rem}
+.why li::marker{color:var(--accent-deep)}
+
 /* ---------- Gallery ---------- */
 .gallery{
   display:grid;
@@ -647,7 +675,9 @@ a:hover{color:#fff}
             <p>
               Diatoms are microalgae. They live in oceans, waterways and soil. They are primary
               producers at the bottom of the aquatic food chain, and they make somewhere between
-              <strong>20% and 50% of the world&rsquo;s oxygen</strong>.
+              <strong>20% and 50% of the world&rsquo;s oxygen</strong>. The ones I looked at
+              included <em>Asterionellopsis glacialis</em>, <em>Eucampia</em> and
+              <em>Lauderia</em>.
             </p>
             <p>
               The lab photographs them with a machine called an <strong>Imaging FlowCytobot</strong>,
@@ -661,10 +691,16 @@ a:hover{color:#fff}
             </p>
             <p>
               So I built a centric diatom counter in <strong>Roboflow</strong>. It answers one
-              question: how many cells are in this picture? That number matters because it tells you
-              how the diatoms are doing &mdash; how they feed, how they avoid predators, how they
-              move in the water, and how all of that lines up with the environment.
+              question: how many cells are in this picture?
             </p>
+            <p>That number matters because cell count is tied to how the diatoms:</p>
+            <ul class="why">
+              <li>survive</li>
+              <li>get food and nutrients</li>
+              <li>avoid predators</li>
+              <li>flow in the water</li>
+            </ul>
+            <p>and how all of that lines up with environmental conditions.</p>
             <p>
               I collected and uploaded the images, annotated about <strong>1,700</strong> of them by
               hand, and trained the model.
@@ -741,6 +777,17 @@ a:hover{color:#fff}
             predictions at all. Version 2 found the cells.
           </p>
           <p>It still needs training on more complex diatom shapes.</p>
+          <p>
+            Version 2 is published publicly, so you can look at the dataset and the annotations
+            yourself.
+          </p>
+          <a class="btn" href="https://universe.roboflow.com/allen-lab-mzqbb/centric-diatom-counting/dataset/2"
+             target="_blank" rel="noopener">
+            View the dataset on Roboflow Universe
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M7 17L17 7M17 7H9M17 7v8"/>
+            </svg>
+          </a>
         </div>
       </div>
 
