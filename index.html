@@ -460,37 +460,29 @@ a:hover{color:#fff}
 .gallery>li{margin:0}
 .gallery--pair{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
 
-/* ---------- Quotes ---------- */
-.quotes{
-  display:grid;
-  gap:1.25rem;
-  margin-top:clamp(2.5rem,5vw,3.5rem);
-  max-width:820px;
-  list-style:none;
-  padding:0;
-}
-.quote{
-  background:linear-gradient(160deg,rgba(14,48,64,.7),rgba(7,29,42,.62));
-  border:1px solid var(--line-soft);
+/* ---------- Pull quote ---------- */
+.pullquote{
+  margin:2.5rem 0 0;
+  padding:.15rem 0 .15rem 1.6rem;
   border-left:2px solid var(--accent-deep);
-  border-radius:0 var(--radius) var(--radius) 0;
-  padding:clamp(1.4rem,3vw,2rem);
-  margin:0;
+  max-width:54ch;
 }
-.quote p{
+.pullquote p{
   margin:0;
   font-family:var(--serif);
-  font-size:clamp(1.05rem,1rem + .45vw,1.3rem);
-  line-height:1.55;
+  font-size:clamp(1.05rem,1rem + .35vw,1.2rem);
+  line-height:1.6;
   font-style:italic;
-  color:var(--ink);
+  color:var(--ink-soft);
 }
-
-.note{
-  margin-top:2rem;
-  font-size:.875rem;
+.pullquote footer{
+  margin-top:.75rem;
+  font-size:.7rem;
+  font-style:normal;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
   color:var(--ink-faint);
-  max-width:60ch;
 }
 
 /* ---------- Footer ---------- */
@@ -861,21 +853,30 @@ a:hover{color:#fff}
     <div class="wrap">
       <div class="reveal">
         <p class="eyebrow">My mentor</p>
-        <h2>Things Vivian told me</h2>
+        <h2>Working with Vivian</h2>
         <div class="prose">
           <p>
-            My mentor was Vivian. She knew something about almost every topic I brought up,
-            academic or not, and she was the best professional role model I have had. Three things
-            she said that stuck with me:
+            My mentor was Vivian. She was friendly and supportive from the start, and she knew
+            something about almost every topic I brought up, academic or not.
           </p>
+          <p>
+            A lot of the internship was just working alongside her and talking. I shared my video
+            game obsessions with her, which she was very nice about. That is a big part of why the
+            whole thing was a good experience.
+          </p>
+          <p>
+            She is the best professional role model I have had. If I end up knowing half as much as
+            she does, I will be happy.
+          </p>
+          <blockquote class="pullquote">
+            <p>
+              &ldquo;If you know what you want to do, great, then just specialize in it. But it
+              doesn&rsquo;t hurt to explore your options.&rdquo;
+            </p>
+            <footer>Vivian</footer>
+          </blockquote>
         </div>
       </div>
-
-      <ul class="quotes reveal">
-        <li><blockquote class="quote"><p>&ldquo;You need to know your own workflow and push yourself to do things.&rdquo;</p></blockquote></li>
-        <li><blockquote class="quote"><p>&ldquo;My mom tried to improve our English, and she brought us DVDs for Planet Earth from BBC and also The Blue Planet about the oceans. That influence actually made me want to study biology and natural science.&rdquo;</p></blockquote></li>
-        <li><blockquote class="quote"><p>&ldquo;If you know what you want to do, great, then just specialize in it. But it doesn&rsquo;t hurt to explore your options.&rdquo;</p></blockquote></li>
-      </ul>
     </div>
   </section>
 
