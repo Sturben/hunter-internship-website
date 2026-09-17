@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hunter John — Phytoplankton Image Classification at JCVI</title>
-<meta name="description" content="A retrospective of my 2024 high school internship at the J. Craig Venter Institute, building image-classification models to identify diatoms and monitor algal blooms.">
+<title>Hunter John — Diatom Classification Using Machine Learning</title>
+<meta name="description" content="My 2024 high school internship at the J. Craig Venter Institute: training a machine learning model to find and count diatoms in microscope images.">
 <meta name="author" content="Hunter John">
 <meta name="theme-color" content="#04121b">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hunter John — Phytoplankton Image Classification at JCVI">
-<meta property="og:description" content="Building image-classification models to identify diatoms and monitor algal blooms, as a high school intern at the J. Craig Venter Institute.">
+<meta property="og:title" content="Hunter John — Diatom Classification Using Machine Learning">
+<meta property="og:description" content="Training a machine learning model to count diatoms in microscope images, as a high school intern at the J. Craig Venter Institute.">
 <meta property="og:image" content="images/diatoms.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -420,55 +420,43 @@ a:hover{color:#fff}
   color:var(--ink-soft);
 }
 
-/* ---------- Journal ---------- */
-.journal{
-  margin-top:clamp(2.5rem,5vw,3.5rem);
+/* ---------- Gallery ---------- */
+.gallery{
   display:grid;
-  gap:1.5rem;
-  max-width:860px;
+  gap:1.35rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));
+  margin-top:clamp(2.5rem,5vw,3.5rem);
+  list-style:none;
+  padding:0;
 }
+.gallery>li{margin:0}
+.gallery--pair{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
 
-.entry{
-  position:relative;
+/* ---------- Quotes ---------- */
+.quotes{
+  display:grid;
+  gap:1.25rem;
+  margin-top:clamp(2.5rem,5vw,3.5rem);
+  max-width:820px;
+  list-style:none;
+  padding:0;
+}
+.quote{
   background:linear-gradient(160deg,rgba(14,48,64,.7),rgba(7,29,42,.62));
   border:1px solid var(--line-soft);
   border-left:2px solid var(--accent-deep);
   border-radius:0 var(--radius) var(--radius) 0;
-  padding:clamp(1.6rem,3.5vw,2.4rem);
+  padding:clamp(1.4rem,3vw,2rem);
+  margin:0;
 }
-.entry__head{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:baseline;
-  gap:.5rem 1rem;
-  padding-bottom:1.1rem;
-  margin-bottom:1.4rem;
-  border-bottom:1px solid var(--line-soft);
-}
-.entry__head h3{font-size:1.55rem}
-.entry__date{
-  font-size:.72rem;
-  font-weight:600;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--ink-faint);
-}
-.entry__body{color:var(--ink-soft)}
-.entry__body p{margin:0 0 1.1em}
-.entry__body p:last-child{margin-bottom:0}
-.entry__body strong{color:var(--ink);font-weight:600}
-
-.aside-note{
-  margin-top:1.5rem;
-  padding:1rem 1.25rem;
-  border-left:2px solid var(--sand);
-  background:rgba(224,190,149,.07);
-  border-radius:0 8px 8px 0;
-  font-size:.925rem;
+.quote p{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(1.05rem,1rem + .45vw,1.3rem);
+  line-height:1.55;
   font-style:italic;
-  color:var(--ink-soft);
+  color:var(--ink);
 }
-.aside-note p{margin:0}
 
 .note{
   margin-top:2rem;
@@ -587,7 +575,8 @@ a:hover{color:#fff}
     <ul class="nav__links">
       <li><a href="#about">Internship</a></li>
       <li><a href="#project">Project</a></li>
-      <li><a href="#journal">Field notes</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#gallery">Gallery</a></li>
     </ul>
   </nav>
 </header>
@@ -597,9 +586,9 @@ a:hover{color:#fff}
   <section class="hero" id="top">
     <img class="hero__bg" src="images/ocean-hero.jpg" alt="" width="2400" height="1617" fetchpriority="high" decoding="async">
     <div class="hero__inner">
-      <h1>Counting the <em>invisible</em> ocean</h1>
+      <h1>Diatom classification using <em>machine learning</em></h1>
       <p class="hero__lede">
-        Teaching a computer to recognize diatoms &mdash; and to see an algal bloom coming.
+        I trained a model to find and count diatoms in microscope images.
       </p>
       <ul class="chips">
         <li>J. Craig Venter Institute</li>
@@ -614,31 +603,35 @@ a:hover{color:#fff}
     <div class="wrap split reveal">
       <div>
         <p class="eyebrow">The internship</p>
-        <h2>A high schooler in a genomics institute</h2>
+        <h2>What I did</h2>
         <div class="prose">
           <p class="lead">
-            In 2024, while I was still in high school, I interned at the
-            <strong>J. Craig Venter Institute</strong> &mdash; a genomics research institute &mdash;
-            on a project to classify phytoplankton from microscope imagery.
+            In 2024, while I was in high school, I interned at the
+            <strong>J. Craig Venter Institute</strong>.
           </p>
           <p>
-            I went in wanting to study engineering with a focus on biomedical engineering, and I
-            took the internship mostly to find out whether that instinct was right. The honest goal
-            was to explore: to see what research actually looks like from the inside, and to find
-            out whether my path led toward engineering or somewhere further into the overlap of
-            technology and healthcare.
+            The lab was working on monitoring algal blooms. Blooms can hurt water quality and
+            marine life, so the lab tracks what is growing in the water and how much of it
+            there is.
           </p>
           <p>
-            What I did not expect was how much of the work would turn out to be
-            <strong>teaching a model to see</strong>. This page is an archive of that project and
-            the notes I kept while doing it.
+            My part was the diatoms. I trained a machine learning model to find them in
+            microscope images and count them.
+          </p>
+          <p>
+            I want to study engineering, probably biomedical engineering. I took the internship
+            to see what research is actually like before picking a major.
+          </p>
+          <p>
+            The hard part was balancing schoolwork with getting the model to handle complicated
+            diatom shapes. I got a lot better at managing my time.
           </p>
         </div>
       </div>
       <div class="split__media">
         <figure class="figure">
           <img src="images/jcvi-campus.jpg" width="824" height="400" alt="An open-air concrete and glass corridor at the J. Craig Venter Institute at dusk, with gravel and moss landscaping below." loading="lazy">
-          <figcaption>The institute where I spent the internship.</figcaption>
+          <figcaption>The institute where I worked.</figcaption>
         </figure>
       </div>
     </div>
@@ -649,40 +642,45 @@ a:hover{color:#fff}
       <div class="split split--flip reveal">
         <div>
           <p class="eyebrow">The project</p>
-          <h2>Classifying diatoms, and watching for blooms</h2>
+          <h2>Counting diatoms</h2>
           <div class="prose">
             <p>
-              My project was the <strong>image classification of phytoplankton</strong> &mdash;
-              specifically diatoms, and the monitoring of algal blooms. The work meant using
-              imaging and computational techniques to analyze photographs of these organisms,
-              then turning those images into data: identifying and cataloging different species
-              of diatom, and counting them.
+              Diatoms are microalgae. They live in oceans, waterways and soil. They are primary
+              producers at the bottom of the aquatic food chain, and they make somewhere between
+              <strong>20% and 50% of the world&rsquo;s oxygen</strong>.
             </p>
             <p>
-              That cataloging matters more than it sounds like it should. Diatoms are a key
-              component of phytoplankton, and phytoplankton are the base of nearly every aquatic
-              food web &mdash; so knowing which species are present, and in what numbers, is a
-              readout on the health of the whole system.
+              The lab photographs them with a machine called an <strong>Imaging FlowCytobot</strong>,
+              or IFCB. It draws in water samples and photographs particles as they pass through a
+              laser beam. It takes about <strong>30,000 images an hour</strong>, and the dataset was
+              over a million images.
             </p>
             <p>
-              The second half of the work was tracking <strong>algal blooms</strong>, which can
-              have serious environmental consequences for water quality and marine life. Getting
-              there meant applying mathematical models and machine learning to improve how
-              reliably blooms could be detected and understood &mdash; small contributions to a
-              much larger body of environmental research and management.
+              Sorting that by hand does not work. It takes too long, and people get tired and label
+              things inconsistently. A trained model is faster and stays consistent.
+            </p>
+            <p>
+              So I built a centric diatom counter in <strong>Roboflow</strong>. It answers one
+              question: how many cells are in this picture? That number matters because it tells you
+              how the diatoms are doing &mdash; how they feed, how they avoid predators, how they
+              move in the water, and how all of that lines up with the environment.
+            </p>
+            <p>
+              I collected and uploaded the images, annotated about <strong>1,700</strong> of them by
+              hand, and trained the model.
             </p>
           </div>
         </div>
         <div class="split__media">
           <figure class="figure">
             <button class="zoom" type="button" data-zoom="images/diatoms.jpg"
-                    data-caption="Diatoms under the microscope &mdash; slender needle-like cells alongside broader striated valves. The kind of image the classifier had to learn to read."
+                    data-caption="Diatoms under the microscope."
                     aria-label="Enlarge the diatom microscopy image">
               <img src="images/diatoms.jpg" width="1600" height="1200" alt="Microscope image of several diatoms: two long needle-shaped cells, an elongated striated cell, and a broad oval cell with fine ribbing, all iridescent against an olive background." loading="lazy">
             </button>
             <figcaption>
-              Diatoms under the microscope. Each species has its own silhouette and pattern of
-              ribbing &mdash; which is exactly what makes them classifiable.
+              Diatoms under the microscope. Different species have different shapes, which is what
+              makes them possible to tell apart.
             </figcaption>
           </figure>
         </div>
@@ -694,135 +692,145 @@ a:hover{color:#fff}
             <rect x="3" y="3" width="18" height="18" rx="2.5"/>
             <path d="M3 9h18M9 3v18"/>
           </svg>
-          <h3>Image classification</h3>
-          <p>Researching how classification methods work, then putting them to use on real microscopy images.</p>
+          <h3>Too many images</h3>
+          <p>The IFCB takes about 30,000 photos an hour. The dataset was over a million images.</p>
         </li>
         <li class="card">
           <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/>
-            <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
+            <path d="M4 5.5h16M4 12h16M4 18.5h10"/>
+            <circle cx="18" cy="18.5" r="2.6"/>
           </svg>
-          <h3>Model training</h3>
-          <p>Building a classifier in Roboflow to sort phytoplankton by type and quantify cell counts.</p>
+          <h3>Annotating by hand</h3>
+          <p>I labeled about 1,700 images in Roboflow before training anything.</p>
         </li>
         <li class="card">
           <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <circle cx="11" cy="11" r="7"/>
             <path d="M20 20l-4.3-4.3"/>
           </svg>
-          <h3>Species identification</h3>
-          <p>Learning to tell diatoms apart by shape and structure &mdash; the hardest part, and the most necessary.</p>
+          <h3>Counting cells</h3>
+          <p>The model finds individual diatom cells in an image and counts them.</p>
         </li>
         <li class="card">
           <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M3 17c2.5-3 4.5-3 7 0s4.5 3 7 0"/>
-            <path d="M3 11c2.5-3 4.5-3 7 0s4.5 3 7 0"/>
-            <path d="M3 5c2.5-3 4.5-3 7 0s4.5 3 7 0" opacity=".45"/>
+            <path d="M4 19V9m5 10V5m5 14v-7m5 7V8"/>
           </svg>
-          <h3>Bloom monitoring</h3>
-          <p>Using models to help detect and track algal blooms before they affect water quality.</p>
+          <h3>Two versions</h3>
+          <p>Version 1 scored 95% but missed hard shapes. Version 2 scored 87.5% and handled them.</p>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="section" id="journal">
+  <section class="section" id="results">
     <div class="wrap">
       <div class="reveal">
-        <p class="eyebrow">Field notes</p>
-        <h2>The log I kept while the work was happening</h2>
+        <p class="eyebrow">Results</p>
+        <h2>The lower score was the better model</h2>
         <div class="prose">
           <p>
-            These entries are reproduced as I wrote them at the time &mdash; present tense,
-            week by week, unedited in substance. They are the most accurate record of what the
-            internship actually felt like from the inside.
+            Version 1 scored <strong>95%</strong>. It was good at the common shapes and bad at the
+            complicated ones.
+          </p>
+          <p>
+            Version 2 scored <strong>87.5%</strong>. The score went down, but it was the better
+            model, because it actually handled the complicated shapes.
+          </p>
+          <p>
+            You can see it below. Same image, same 50% confidence setting. Version 1 returned no
+            predictions at all. Version 2 found the cells.
+          </p>
+          <p>It still needs training on more complex diatom shapes.</p>
+        </div>
+      </div>
+
+      <ul class="gallery gallery--pair reveal">
+        <li>
+          <figure class="figure">
+            <button class="zoom" type="button" data-zoom="images/model-v1.jpg"
+                    data-caption="Version 1 on a chain of centric diatoms at a 50% confidence threshold. It returned an empty predictions list."
+                    aria-label="Enlarge the Version 1 result">
+              <img src="images/model-v1.jpg" width="1125" height="779" alt="Roboflow screenshot titled centric-diatom-counting/1 showing a grayscale chain of diatom cells with no boxes drawn on it, and a results panel reading predictions: empty list." loading="lazy">
+            </button>
+            <figcaption><strong>Version 1.</strong> No predictions at all on this image.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="figure">
+            <button class="zoom" type="button" data-zoom="images/model-v2.jpg"
+                    data-caption="Version 2 on the same image at the same threshold, boxing individual cells at 53% to 76% confidence."
+                    aria-label="Enlarge the Version 2 result">
+              <img src="images/model-v2.jpg" width="1120" height="777" alt="Roboflow screenshot titled centric-diatom-counting/2 showing the same grayscale diatom chain with yellow boxes labeled cells at 76, 72, 69, 60, 56 and 53 percent confidence, and a results panel listing the detections." loading="lazy">
+            </button>
+            <figcaption><strong>Version 2.</strong> Same image, same settings. It found the cells, 53% to 76% confidence.</figcaption>
+          </figure>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tint" id="gallery">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Gallery</p>
+        <h2>From the project</h2>
+      </div>
+      <ul class="gallery reveal">
+        <li>
+          <figure class="figure">
+            <button class="zoom" type="button" data-zoom="images/ifcb-diatom.jpg"
+                    data-caption="A chain of centric diatoms as the IFCB photographed it."
+                    aria-label="Enlarge the IFCB diatom image">
+              <img src="images/ifcb-diatom.jpg" width="800" height="530" alt="Grayscale image of a chain of centric diatom cells with long thin spines, captured by the Imaging FlowCytobot." loading="lazy">
+            </button>
+            <figcaption>A chain of centric diatoms, straight off the IFCB. This is the kind of image the model had to read.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="figure">
+            <button class="zoom" type="button" data-zoom="images/roboflow-dataset.jpg"
+                    data-caption="Part of the annotated dataset in Roboflow."
+                    aria-label="Enlarge the dataset screenshot">
+              <img src="images/roboflow-dataset.jpg" width="1151" height="791" alt="Roboflow screenshot showing a grid of dozens of small grayscale diatom images, each with green annotation boxes drawn on the cells." loading="lazy">
+            </button>
+            <figcaption>Part of the dataset in Roboflow after annotating.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="figure">
+            <button class="zoom" type="button" data-zoom="images/roboflow-annotating.jpg"
+                    data-caption="Annotating a diatom chain one cell at a time in Roboflow."
+                    aria-label="Enlarge the annotation screenshot">
+              <img src="images/roboflow-annotating.jpg" width="1400" height="900" alt="Roboflow annotation tool with a zoomed-in diatom chain, each cell enclosed in its own yellow labeling box." loading="lazy">
+            </button>
+            <figcaption>Annotating a chain, one cell at a time. About 1,700 images of this.</figcaption>
+          </figure>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="mentor">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">My mentor</p>
+        <h2>Things Vivian told me</h2>
+        <div class="prose">
+          <p>
+            My mentor was Vivian. She knew something about almost every topic I brought up,
+            academic or not, and she was the best professional role model I have had. Three things
+            she said that stuck with me:
           </p>
         </div>
       </div>
 
-      <div class="journal">
-        <article class="entry reveal">
-          <div class="entry__head">
-            <h3>Week 1</h3>
-            <span class="entry__date">May 2024</span>
-          </div>
-          <div class="entry__body">
-            <p>
-              On Monday and Tuesday, my objectives were to research image classification and learn
-              about phytoplankton. I delivered an explanation of image classification methods and a
-              summary of phytoplankton. I'm proud of my understanding of image classification but
-              realized I need to delve deeper into identifying different types of phytoplankton.
-            </p>
-            <p>
-              I'm developing a program using <strong>Roboflow</strong> to classify various types of
-              phytoplankton and quantify their cell counts. This week's goal is to understand
-              different types of phytoplankton better.
-            </p>
-            <p>
-              On Wednesday and Thursday, my objectives were to implement initial image
-              classification models and begin training these models on phytoplankton images. I
-              successfully set up the model and started the training process, which I'm proud of.
-            </p>
-            <p>
-              This project will benefit my understanding of machine learning and image processing,
-              and help JCVI by improving phytoplankton monitoring methods.
-            </p>
-            <p>
-              I'm learning a lot from my mentor about image classification and project management,
-              and our communication is excellent.
-            </p>
-            <div class="aside-note">
-              <p>
-                Jacob Archbold, another intern, is learning to draw buildings to scale and use a
-                scale ruler. I like to think I'm a lot better &gt;:)
-              </p>
-            </div>
-          </div>
-        </article>
-
-        <!--
-          TO ADD ANOTHER ENTRY: copy the block below, fill it in, and place it after Week 1.
-
-          <article class="entry reveal">
-            <div class="entry__head">
-              <h3>Week 2</h3>
-              <span class="entry__date">May 2024</span>
-            </div>
-            <div class="entry__body">
-              <p>What you worked on, what you delivered, what you learned.</p>
-            </div>
-          </article>
-        -->
-      </div>
-
-      <p class="note">
-        Only the Week&nbsp;1 entry survived from the original site &mdash; the later weeks were
-        never written up. The commented-out template in this file's source shows where they go.
-      </p>
+      <ul class="quotes reveal">
+        <li><blockquote class="quote"><p>&ldquo;You need to know your own workflow and push yourself to do things.&rdquo;</p></blockquote></li>
+        <li><blockquote class="quote"><p>&ldquo;My mom tried to improve our English, and she brought us DVDs for Planet Earth from BBC and also The Blue Planet about the oceans. That influence actually made me want to study biology and natural science.&rdquo;</p></blockquote></li>
+        <li><blockquote class="quote"><p>&ldquo;If you know what you want to do, great, then just specialize in it. But it doesn&rsquo;t hurt to explore your options.&rdquo;</p></blockquote></li>
+      </ul>
     </div>
   </section>
-
-  <!--
-    GALLERY: removed for now, since there were only placeholder images.
-    To bring it back, drop images into images/ and re-add a section like:
-
-    <section class="section section--tint" id="gallery">
-      <div class="wrap">
-        <p class="eyebrow">Gallery</p>
-        <h2>From the microscope</h2>
-        <ul class="cards reveal">
-          <li class="card">
-            <figure class="figure">
-              <button class="zoom" type="button" data-zoom="images/your-image.jpg" data-caption="Caption." aria-label="Enlarge image">
-                <img src="images/your-image.jpg" alt="Describe the image." loading="lazy">
-              </button>
-              <figcaption>Caption.</figcaption>
-            </figure>
-          </li>
-        </ul>
-      </div>
-    </section>
-  -->
 
 </main>
 
@@ -831,8 +839,8 @@ a:hover{color:#fff}
     <div>
       <h2>Hunter John</h2>
       <p>
-        An archive of my 2024 high school internship at the J. Craig Venter Institute,
-        classifying diatoms and monitoring algal blooms.
+        My 2024 high school internship at the J. Craig Venter Institute, training a model to
+        count diatoms in microscope images.
       </p>
     </div>
     <div class="footer__meta">
