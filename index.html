@@ -1,490 +1,935 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter's Internship</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-image: url('noaa-RDEaV381Cxg-unsplash.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-            position: relative;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 3em;
-        }
-        header p {
-            font-size: 1.5em;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            transition: background-color 0.3s ease;
-            z-index: 1000;
-        }
-        nav a {
-            margin: 0 20px;
-            text-decoration: none;
-            color: white;
-            padding: 15px 0;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #007BFF;
-        }
-        nav:hover {
-            background-color: rgba(0, 0, 0, 1);
-        }
-        .container {
-            width: 80%;
-            margin: 120px auto 20px auto;
-            display: flex;
-            flex-wrap: wrap;
-            padding-top: 60px; /* Add padding to ensure content is not hidden behind nav */
-        }
-        .content {
-            flex: 2;
-            padding: 20px;
-        }
-        .content h2 {
-            color: #007BFF;
-            margin-bottom: 20px;
-        }
-        .sidebar {
-            flex: 1;
-            padding: 20px;
-        }
-        .sidebar img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .blog-entry {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .gallery-item {
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: calc(33.333% - 20px);
-            box-sizing: border-box;
-        }
-        .gallery-item img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .gallery-item p {
-            margin-top: 10px;
-            text-align: center;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: white;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hunter John — Phytoplankton Image Classification at JCVI</title>
+<meta name="description" content="A retrospective of my 2024 high school internship at the J. Craig Venter Institute, building image-classification models to identify diatoms and monitor algal blooms.">
+<meta name="author" content="Hunter John">
+<meta name="theme-color" content="#04121b">
 
-        /* Media Queries */
-        @media (max-width: 1200px) {
-            .container {
-                width: 90%;
-            }
-        }
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hunter John — Phytoplankton Image Classification at JCVI">
+<meta property="og:description" content="Building image-classification models to identify diatoms and monitor algal blooms, as a high school intern at the J. Craig Venter Institute.">
+<meta property="og:image" content="images/diatoms.jpg">
+<meta name="twitter:card" content="summary_large_image">
 
-        @media (max-width: 992px) {
-            nav {
-                flex-direction: column;
-            }
-            nav a {
-                padding: 10px;
-                margin: 0;
-            }
-            .container {
-                flex-direction: column;
-            }
-            .content, .sidebar {
-                flex: 1 100%;
-            }
-        }
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2304121b'/%3E%3Cellipse cx='16' cy='16' rx='5' ry='11' fill='none' stroke='%235eead4' stroke-width='1.6'/%3E%3Cpath d='M16 6.5v19' stroke='%235eead4' stroke-width='1.2'/%3E%3Cg stroke='%235eead4' stroke-width='.9' opacity='.8'%3E%3Cpath d='M11.6 11h8.8M11 13.5h10M11 16h10M11 18.5h10M11.6 21h8.8'/%3E%3C/g%3E%3C/svg%3E">
 
-        @media (max-width: 768px) {
-            header {
-                padding: 50px 20px;
-            }
-            header h1 {
-                font-size: 2em;
-            }
-            header p {
-                font-size: 1.2em;
-            }
-            .gallery-item {
-                width: calc(50% - 20px);
-            }
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-        @media (max-width: 576px) {
-            .gallery-item {
-                width: 100%;
-            }
-        }
-    </style>
+<style>
+/* ---------- Tokens ---------- */
+:root{
+  --abyss:#04121b;
+  --deep:#071d2a;
+  --surface:#0b2634;
+  --surface-2:#0e3040;
+  --line:rgba(94,234,212,.16);
+  --line-soft:rgba(255,255,255,.08);
+
+  --ink:#e8f4f3;
+  --ink-soft:#a9c4ca;
+  --ink-faint:#7996a0;
+
+  --accent:#5eead4;
+  --accent-deep:#2bb3a3;
+  --sand:#e0be95;
+
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+
+  --measure:68ch;
+  --gutter:clamp(1.25rem,5vw,4rem);
+  --radius:14px;
+  --nav-h:62px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  background:var(--abyss);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:clamp(1rem,.96rem + .18vw,1.075rem);
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* Ambient depth: a slow teal glow behind the whole page */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(70ch 55ch at 12% 8%,rgba(43,179,163,.17),transparent 70%),
+    radial-gradient(60ch 50ch at 92% 72%,rgba(94,234,212,.10),transparent 70%),
+    linear-gradient(180deg,var(--abyss),var(--deep) 55%,var(--abyss));
+}
+
+img{max-width:100%;height:auto;display:block}
+
+h1,h2,h3{
+  font-family:var(--serif);
+  font-weight:500;
+  line-height:1.14;
+  letter-spacing:-.015em;
+  text-wrap:balance;
+  margin:0;
+}
+
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:#fff}
+
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+.skip{
+  position:absolute;
+  left:-9999px;
+  top:0;
+  z-index:200;
+  background:var(--accent);
+  color:var(--abyss);
+  padding:.75rem 1.25rem;
+  font-weight:600;
+  border-radius:0 0 8px 0;
+}
+.skip:focus{left:0}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:fixed;
+  inset:0 0 auto 0;
+  z-index:100;
+  height:var(--nav-h);
+  display:flex;
+  align-items:center;
+  gap:var(--gutter);
+  padding-inline:var(--gutter);
+  background:rgba(4,18,27,.62);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid transparent;
+  transition:background .35s ease,border-color .35s ease;
+}
+.nav[data-scrolled]{
+  background:rgba(4,18,27,.92);
+  border-bottom-color:var(--line);
+}
+
+.nav__brand{
+  font-family:var(--serif);
+  font-size:1.0625rem;
+  color:var(--ink);
+  text-decoration:none;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  flex:0 0 auto;
+}
+.nav__brand:hover{color:#fff}
+.nav__brand svg{width:20px;height:20px;flex:0 0 auto}
+
+.nav__sections{
+  margin-left:auto;
+  min-width:0;
+}
+
+.nav__links{
+  display:flex;
+  gap:.35rem;
+  list-style:none;
+  padding:0;
+  min-width:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  -webkit-overflow-scrolling:touch;
+}
+.nav__links::-webkit-scrollbar{display:none}
+
+@media (max-width:600px){
+  .nav__brand-label{
+    position:absolute;
+    width:1px;height:1px;
+    overflow:hidden;
+    clip-path:inset(50%);
+    white-space:nowrap;
+  }
+  .nav{gap:.5rem}
+  .nav__links a{padding:.5rem .6rem;font-size:.8125rem}
+}
+
+.nav__links a{
+  display:block;
+  padding:.5rem .8rem;
+  border-radius:999px;
+  font-size:.875rem;
+  font-weight:500;
+  color:var(--ink-soft);
+  text-decoration:none;
+  white-space:nowrap;
+  transition:color .2s ease,background-color .2s ease;
+}
+.nav__links a:hover{color:var(--ink);background:rgba(94,234,212,.09)}
+.nav__links a[aria-current="true"]{color:var(--accent);background:rgba(94,234,212,.13)}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
+  min-height:min(94svh,860px);
+  display:grid;
+  align-content:end;
+  padding:calc(var(--nav-h) + 4rem) var(--gutter) clamp(3rem,7vh,5.5rem);
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero__bg{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 42%;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(180deg,rgba(4,18,27,.80) 0%,rgba(4,18,27,.42) 34%,rgba(4,18,27,.88) 78%,var(--abyss) 100%),
+    radial-gradient(90ch 60ch at 22% 92%,rgba(4,18,27,.72),transparent 72%);
+}
+
+.hero__inner{max-width:min(100%,46rem)}
+.hero h1{
+  font-size:clamp(2.6rem,7.2vw,5.25rem);
+  margin-bottom:.75rem;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--accent);
+}
+.hero__lede{
+  font-family:var(--serif);
+  font-size:clamp(1.15rem,1rem + .85vw,1.6rem);
+  line-height:1.5;
+  color:var(--ink-soft);
+  max-width:min(100%,32rem);
+  margin:0 0 2rem;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.chips li{
+  font-size:.75rem;
+  font-weight:500;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  border:1px solid var(--line);
+  background:rgba(4,18,27,.5);
+  backdrop-filter:blur(6px);
+  padding:.45rem .85rem;
+  border-radius:999px;
+}
+
+.hero__cue{
+  position:absolute;
+  left:var(--gutter);
+  bottom:1.1rem;
+  font-size:.7rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+}
+.hero__cue::after{
+  content:"";
+  width:1px;
+  height:26px;
+  background:linear-gradient(var(--accent),transparent);
+  animation:cue 2.4s ease-in-out infinite;
+}
+@keyframes cue{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ---------- Layout ---------- */
+.section{
+  padding:clamp(4.5rem,11vh,8rem) var(--gutter);
+  scroll-margin-top:var(--nav-h);
+}
+.section--tint{
+  background:linear-gradient(180deg,transparent,rgba(11,38,52,.55) 12%,rgba(11,38,52,.55) 88%,transparent);
+  border-block:1px solid var(--line-soft);
+}
+.wrap{max-width:1140px;margin-inline:auto}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:.85rem;
+  font-size:.7rem;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:1.25rem;
+}
+.eyebrow::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,var(--line),transparent);
+}
+
+.section h2{
+  font-size:clamp(1.9rem,1.4rem + 2.2vw,3rem);
+  margin-bottom:1.5rem;
+  max-width:26ch;
+}
+
+.prose{max-width:var(--measure)}
+.prose p{margin:0 0 1.15em}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:#fff;font-weight:600}
+
+.lead{
+  font-family:var(--serif);
+  font-size:clamp(1.1rem,1rem + .55vw,1.4rem);
+  line-height:1.6;
+  color:var(--ink);
+}
+
+/* Two-column split */
+.split{
+  display:grid;
+  gap:clamp(2rem,5vw,4.5rem);
+  align-items:center;
+}
+@media (min-width:900px){
+  .split{grid-template-columns:1.15fr .85fr}
+  .split--flip>.split__media{order:-1}
+}
+
+.figure{margin:0}
+.figure img{
+  width:100%;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  box-shadow:0 26px 60px -28px rgba(0,0,0,.85);
+}
+.figure figcaption{
+  margin-top:.85rem;
+  font-size:.8125rem;
+  line-height:1.55;
+  color:var(--ink-faint);
+}
+
+/* Zoomable figure */
+.zoom{
+  position:relative;
+  display:block;
+  width:100%;
+  padding:0;
+  border:0;
+  background:none;
+  cursor:zoom-in;
+  border-radius:var(--radius);
+}
+.zoom img{width:100%;height:auto;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.zoom::after{
+  content:"⤢";
+  position:absolute;
+  right:.7rem;
+  bottom:.7rem;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(4,18,27,.8);
+  border:1px solid var(--line);
+  color:var(--accent);
+  font-size:.95rem;
+  opacity:0;
+  transform:translateY(5px);
+  transition:opacity .28s ease,transform .28s ease;
+}
+.zoom:hover::after,.zoom:focus-visible::after{opacity:1;transform:none}
+.zoom:hover img{transform:scale(1.015)}
+
+/* ---------- Cards ---------- */
+.cards{
+  display:grid;
+  gap:1.15rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));
+  margin-top:clamp(2.5rem,5vw,3.5rem);
+  list-style:none;
+  padding:0;
+}
+.card{
+  background:linear-gradient(160deg,rgba(14,48,64,.82),rgba(7,29,42,.72));
+  border:1px solid var(--line-soft);
+  border-radius:var(--radius);
+  padding:1.6rem;
+  transition:border-color .3s ease,transform .3s ease;
+}
+.card:hover{border-color:var(--line);transform:translateY(-3px)}
+.card__icon{
+  width:34px;
+  height:34px;
+  color:var(--accent);
+  margin-bottom:1rem;
+}
+.card h3{
+  font-family:var(--sans);
+  font-size:1rem;
+  font-weight:600;
+  letter-spacing:0;
+  margin-bottom:.5rem;
+}
+.card p{
+  margin:0;
+  font-size:.9rem;
+  line-height:1.65;
+  color:var(--ink-soft);
+}
+
+/* ---------- Journal ---------- */
+.journal{
+  margin-top:clamp(2.5rem,5vw,3.5rem);
+  display:grid;
+  gap:1.5rem;
+  max-width:860px;
+}
+
+.entry{
+  position:relative;
+  background:linear-gradient(160deg,rgba(14,48,64,.7),rgba(7,29,42,.62));
+  border:1px solid var(--line-soft);
+  border-left:2px solid var(--accent-deep);
+  border-radius:0 var(--radius) var(--radius) 0;
+  padding:clamp(1.6rem,3.5vw,2.4rem);
+}
+.entry__head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:.5rem 1rem;
+  padding-bottom:1.1rem;
+  margin-bottom:1.4rem;
+  border-bottom:1px solid var(--line-soft);
+}
+.entry__head h3{font-size:1.55rem}
+.entry__date{
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+}
+.entry__body{color:var(--ink-soft)}
+.entry__body p{margin:0 0 1.1em}
+.entry__body p:last-child{margin-bottom:0}
+.entry__body strong{color:var(--ink);font-weight:600}
+
+.aside-note{
+  margin-top:1.5rem;
+  padding:1rem 1.25rem;
+  border-left:2px solid var(--sand);
+  background:rgba(224,190,149,.07);
+  border-radius:0 8px 8px 0;
+  font-size:.925rem;
+  font-style:italic;
+  color:var(--ink-soft);
+}
+.aside-note p{margin:0}
+
+.note{
+  margin-top:2rem;
+  font-size:.875rem;
+  color:var(--ink-faint);
+  max-width:60ch;
+}
+
+/* ---------- Footer ---------- */
+.footer{
+  padding:clamp(3rem,7vh,4.5rem) var(--gutter) 2.5rem;
+  border-top:1px solid var(--line-soft);
+  background:rgba(4,18,27,.6);
+}
+.footer__grid{
+  max-width:1140px;
+  margin-inline:auto;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:end;
+  gap:2rem;
+}
+.footer h2{
+  font-size:clamp(1.4rem,1.2rem + 1vw,2rem);
+  margin-bottom:.6rem;
+}
+.footer p{margin:0;font-size:.875rem;color:var(--ink-faint);max-width:52ch;line-height:1.7;text-wrap:pretty}
+.footer__meta{font-size:.8125rem;color:var(--ink-faint);text-align:right}
+@media (max-width:640px){.footer__meta{text-align:left}}
+
+/* ---------- Lightbox ---------- */
+.lightbox{
+  border:0;
+  padding:0;
+  max-width:min(96vw,1500px);
+  max-height:94svh;
+  background:transparent;
+  overflow:visible;
+}
+.lightbox::backdrop{
+  background:rgba(2,9,14,.93);
+  backdrop-filter:blur(4px);
+}
+.lightbox img{
+  width:auto;
+  max-width:100%;
+  max-height:88svh;
+  margin-inline:auto;
+  border-radius:10px;
+  border:1px solid var(--line);
+}
+.lightbox__close{
+  position:absolute;
+  top:-.5rem;
+  right:-.5rem;
+  transform:translate(50%,-50%);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--ink);
+  font-size:1.1rem;
+  line-height:1;
+  cursor:pointer;
+}
+.lightbox__close:hover{background:var(--surface-2);color:#fff}
+.lightbox figcaption{
+  margin-top:.85rem;
+  font-size:.8125rem;
+  color:var(--ink-soft);
+  text-align:center;
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1);
+}
+.reveal.is-in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+  .reveal{opacity:1;transform:none}
+}
+
+@media print{
+  body::before,.nav,.hero__cue,.lightbox{display:none}
+  body{background:#fff;color:#000}
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Hunter's Internship</h1>
-        <p>Phytoplankton Image Classification</p>
-    </header>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#weekly-blogs">Weekly Blogs</a>
-        <a href="#gallery">Gallery</a>
-    </nav>
-    <div class="container" id="home">
-        <div class="content">
-            <h2>The Internship Experience</h2>
-            <p>Hello, and welcome to my internship website! My name is Hunter John, and I want to study engineering with a focus on biomedical engineering. I am currently interning at the J. Craig Venter Institute (JCVI). My ultimate goal for this internship is to explore career options, and I believe this internship will help clarify my path in engineering or perhaps reveal new possibilities in technology and healthcare.</p>
-        </div>
-        <div class="sidebar">
-            <img src="proxy-image (2).jpg" alt="JCVI Building">
-        </div>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <ellipse cx="16" cy="16" rx="5" ry="11" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M16 6.5v19" stroke="currentColor" stroke-width="1.2"/>
+      <g stroke="currentColor" stroke-width=".9" opacity=".75">
+        <path d="M11.6 11h8.8M11 13.5h10M11 16h10M11 18.5h10M11.6 21h8.8"/>
+      </g>
+    </svg>
+    <span class="nav__brand-label">Hunter John</span>
+  </a>
+  <nav class="nav__sections" aria-label="Sections">
+    <ul class="nav__links">
+      <li><a href="#about">Internship</a></li>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#journal">Field notes</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <img class="hero__bg" src="images/ocean-hero.jpg" alt="" width="2400" height="1617" fetchpriority="high" decoding="async">
+    <div class="hero__inner">
+      <h1>Counting the <em>invisible</em> ocean</h1>
+      <p class="hero__lede">
+        Teaching a computer to recognize diatoms &mdash; and to see an algal bloom coming.
+      </p>
+      <ul class="chips">
+        <li>J. Craig Venter Institute</li>
+        <li>2024</li>
+        <li>High school internship</li>
+      </ul>
     </div>
-    <div class="container" id="what-im-doing">
-        <div class="sidebar">
-            <img src="proxy-image.jpg" alt="Diatoms">
+    <span class="hero__cue" aria-hidden="true">Scroll</span>
+  </section>
+
+  <section class="section" id="about">
+    <div class="wrap split reveal">
+      <div>
+        <p class="eyebrow">The internship</p>
+        <h2>A high schooler in a genomics institute</h2>
+        <div class="prose">
+          <p class="lead">
+            In 2024, while I was still in high school, I interned at the
+            <strong>J. Craig Venter Institute</strong> &mdash; a genomics research institute &mdash;
+            on a project to classify phytoplankton from microscope imagery.
+          </p>
+          <p>
+            I went in wanting to study engineering with a focus on biomedical engineering, and I
+            took the internship mostly to find out whether that instinct was right. The honest goal
+            was to explore: to see what research actually looks like from the inside, and to find
+            out whether my path led toward engineering or somewhere further into the overlap of
+            technology and healthcare.
+          </p>
+          <p>
+            What I did not expect was how much of the work would turn out to be
+            <strong>teaching a model to see</strong>. This page is an archive of that project and
+            the notes I kept while doing it.
+          </p>
         </div>
-        <div class="content">
-            <h2>What I'm Doing</h2>
-            <p>At my internship at the J. Craig Venter Institute (JCVI), I am involved in a project focused on the image classification of phytoplankton, specifically concentrating on diatoms and monitoring algal blooms. My role includes using advanced imaging and computational techniques to analyze images of these microorganisms. The data collected helps in identifying and cataloging different species of diatoms, which are a key component of phytoplankton and play a crucial role in aquatic ecosystems.</p>
-            <p>Additionally, my work assists in tracking and studying the development of algal blooms, which can have significant environmental impacts, such as affecting water quality and marine life. This involves applying mathematical models and machine learning algorithms to improve the detection and understanding of these phenomena, supporting broader environmental research and management efforts.</p>
-        </div>
+      </div>
+      <div class="split__media">
+        <figure class="figure">
+          <img src="images/jcvi-campus.jpg" width="824" height="400" alt="An open-air concrete and glass corridor at the J. Craig Venter Institute at dusk, with gravel and moss landscaping below." loading="lazy">
+          <figcaption>The institute where I spent the internship.</figcaption>
+        </figure>
+      </div>
     </div>
-   <div class="container" id="weekly-blogs">
-    <div class="content">
-        <h2>Weekly Blogs</h2>
-        <div class="blog-entry">
+  </section>
+
+  <section class="section section--tint" id="project">
+    <div class="wrap">
+      <div class="split split--flip reveal">
+        <div>
+          <p class="eyebrow">The project</p>
+          <h2>Classifying diatoms, and watching for blooms</h2>
+          <div class="prose">
+            <p>
+              My project was the <strong>image classification of phytoplankton</strong> &mdash;
+              specifically diatoms, and the monitoring of algal blooms. The work meant using
+              imaging and computational techniques to analyze photographs of these organisms,
+              then turning those images into data: identifying and cataloging different species
+              of diatom, and counting them.
+            </p>
+            <p>
+              That cataloging matters more than it sounds like it should. Diatoms are a key
+              component of phytoplankton, and phytoplankton are the base of nearly every aquatic
+              food web &mdash; so knowing which species are present, and in what numbers, is a
+              readout on the health of the whole system.
+            </p>
+            <p>
+              The second half of the work was tracking <strong>algal blooms</strong>, which can
+              have serious environmental consequences for water quality and marine life. Getting
+              there meant applying mathematical models and machine learning to improve how
+              reliably blooms could be detected and understood &mdash; small contributions to a
+              much larger body of environmental research and management.
+            </p>
+          </div>
+        </div>
+        <div class="split__media">
+          <figure class="figure">
+            <button class="zoom" type="button" data-zoom="images/diatoms.jpg"
+                    data-caption="Diatoms under the microscope &mdash; slender needle-like cells alongside broader striated valves. The kind of image the classifier had to learn to read."
+                    aria-label="Enlarge the diatom microscopy image">
+              <img src="images/diatoms.jpg" width="1600" height="1200" alt="Microscope image of several diatoms: two long needle-shaped cells, an elongated striated cell, and a broad oval cell with fine ribbing, all iridescent against an olive background." loading="lazy">
+            </button>
+            <figcaption>
+              Diatoms under the microscope. Each species has its own silhouette and pattern of
+              ribbing &mdash; which is exactly what makes them classifiable.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <ul class="cards reveal">
+        <li class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2.5"/>
+            <path d="M3 9h18M9 3v18"/>
+          </svg>
+          <h3>Image classification</h3>
+          <p>Researching how classification methods work, then putting them to use on real microscopy images.</p>
+        </li>
+        <li class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/>
+            <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
+          </svg>
+          <h3>Model training</h3>
+          <p>Building a classifier in Roboflow to sort phytoplankton by type and quantify cell counts.</p>
+        </li>
+        <li class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="M20 20l-4.3-4.3"/>
+          </svg>
+          <h3>Species identification</h3>
+          <p>Learning to tell diatoms apart by shape and structure &mdash; the hardest part, and the most necessary.</p>
+        </li>
+        <li class="card">
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M3 17c2.5-3 4.5-3 7 0s4.5 3 7 0"/>
+            <path d="M3 11c2.5-3 4.5-3 7 0s4.5 3 7 0"/>
+            <path d="M3 5c2.5-3 4.5-3 7 0s4.5 3 7 0" opacity=".45"/>
+          </svg>
+          <h3>Bloom monitoring</h3>
+          <p>Using models to help detect and track algal blooms before they affect water quality.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="journal">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Field notes</p>
+        <h2>The log I kept while the work was happening</h2>
+        <div class="prose">
+          <p>
+            These entries are reproduced as I wrote them at the time &mdash; present tense,
+            week by week, unedited in substance. They are the most accurate record of what the
+            internship actually felt like from the inside.
+          </p>
+        </div>
+      </div>
+
+      <div class="journal">
+        <article class="entry reveal">
+          <div class="entry__head">
             <h3>Week 1</h3>
+            <span class="entry__date">May 2024</span>
+          </div>
+          <div class="entry__body">
             <p>
-                On Monday and Tuesday, my objectives were to research image classification and learn about phytoplankton. I delivered an explanation of image classification methods and a summary of phytoplankton. I'm proud of my understanding of image classification but realized I need to delve deeper into identifying different types of phytoplankton.
+              On Monday and Tuesday, my objectives were to research image classification and learn
+              about phytoplankton. I delivered an explanation of image classification methods and a
+              summary of phytoplankton. I'm proud of my understanding of image classification but
+              realized I need to delve deeper into identifying different types of phytoplankton.
             </p>
             <p>
-                I'm developing a program using Roboflow to classify various types of phytoplankton and quantify their cell counts. This week’s goal is to understand different types of phytoplankton better.
+              I'm developing a program using <strong>Roboflow</strong> to classify various types of
+              phytoplankton and quantify their cell counts. This week's goal is to understand
+              different types of phytoplankton better.
             </p>
             <p>
-                Jacob Archbold, another intern, is learning to draw buildings to scale and use a scale ruler. I like to think I'm a lot better >:)
+              On Wednesday and Thursday, my objectives were to implement initial image
+              classification models and begin training these models on phytoplankton images. I
+              successfully set up the model and started the training process, which I'm proud of.
             </p>
             <p>
-                On Wednesday and Thursday, my objectives were to implement initial image classification models and begin training these models on phytoplankton images. I successfully set up the model and started the training process, which I’m proud of.
+              This project will benefit my understanding of machine learning and image processing,
+              and help JCVI by improving phytoplankton monitoring methods.
             </p>
             <p>
-                This project will benefit my understanding of machine learning and image processing, and help JCVI by improving phytoplankton monitoring methods.
+              I'm learning a lot from my mentor about image classification and project management,
+              and our communication is excellent.
             </p>
-            <p>
-                I'm learning a lot from my mentor about image classification and project management, and our communication is excellent.
-            </p>
-        </div>
-    </div>
-</div>
-
+            <div class="aside-note">
+              <p>
+                Jacob Archbold, another intern, is learning to draw buildings to scale and use a
+                scale ruler. I like to think I'm a lot better &gt;:)
+              </p>
             </div>
-            <div class="blog-entry">
-                <h3>Week 2</h3>
-                <p>Blog content for week 2...</p>
+          </div>
+        </article>
+
+        <!--
+          TO ADD ANOTHER ENTRY: copy the block below, fill it in, and place it after Week 1.
+
+          <article class="entry reveal">
+            <div class="entry__head">
+              <h3>Week 2</h3>
+              <span class="entry__date">May 2024</span>
             </div>
-            <!-- Add more blog entries as needed -->
-        </div>
-    </div>
-    <div class="container" id="gallery">
-        <div class="content">
-            <h2>Gallery</h2>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="path/to/your/image3.jpg" alt="Gallery Image 1">
-                    <p>Brief description of image 1</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="path/to/your/image4.jpg" alt="Gallery Image 2">
-                    <p>Brief description of image 2</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="path/to/your/image5.jpg" alt="Gallery Image 3">
-                    <p>Brief description of image 3</p>
-                </div>
-                <!-- Add more gallery items as needed -->
+            <div class="entry__body">
+              <p>What you worked on, what you delivered, what you learned.</p>
             </div>
-        </div>
+          </article>
+        -->
+      </div>
+
+      <p class="note">
+        Only the Week&nbsp;1 entry survived from the original site &mdash; the later weeks were
+        never written up. The commented-out template in this file's source shows where they go.
+      </p>
     </div>
-    <footer>
-        <p>&copy; 2024 Hunter John</p>
-    </footer>
+  </section>
 
-    <script>
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollHere's the final updated HTML file with the correct path to your uploaded diatom image on GitHub:
+  <!--
+    GALLERY: removed for now, since there were only placeholder images.
+    To bring it back, drop images into images/ and re-add a section like:
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter's Internship</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-image: url('https://github.com/sturben/hunter-internship-website/raw/main/proxy-image%20(1).jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-            position: relative;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 3em;
-        }
-        header p {
-            font-size: 1.5em;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            transition: background-color 0.3s ease;
-            z-index: 1000;
-        }
-        nav a {
-            margin: 0 20px;
-            text-decoration: none;
-            color: white;
-            padding: 15px 0;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #007BFF;
-        }
-        nav:hover {
-            background-color: rgba(0, 0, 0, 1);
-        }
-        .container {
-            width: 80%;
-            margin: 120px auto 20px auto;
-            display: flex;
-            flex-wrap: wrap;
-            padding-top: 60px; /* Add padding to ensure content is not hidden behind nav */
-        }
-        .content {
-            flex: 2;
-            padding: 20px;
-        }
-        .content h2 {
-            color: #007BFF;
-            margin-bottom: 20px;
-        }
-        .sidebar {
-            flex: 1;
-            padding: 20px;
-        }
-        .sidebar img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .blog-entry {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .gallery-item {
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: calc(33.333% - 20px);
-            box-sizing: border-box;
-        }
-        .gallery-item img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .gallery-item p {
-            margin-top: 10px;
-            text-align: center;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: white;
-        }
+    <section class="section section--tint" id="gallery">
+      <div class="wrap">
+        <p class="eyebrow">Gallery</p>
+        <h2>From the microscope</h2>
+        <ul class="cards reveal">
+          <li class="card">
+            <figure class="figure">
+              <button class="zoom" type="button" data-zoom="images/your-image.jpg" data-caption="Caption." aria-label="Enlarge image">
+                <img src="images/your-image.jpg" alt="Describe the image." loading="lazy">
+              </button>
+              <figcaption>Caption.</figcaption>
+            </figure>
+          </li>
+        </ul>
+      </div>
+    </section>
+  -->
 
-        /* Media Queries */
-        @media (max-width: 1200px) {
-            .container {
-                width: 90%;
-            }
-        }
+</main>
 
-        @media (max-width: 992px) {
-            nav {
-                flex-direction: column;
-            }
-            nav a {
-                padding: 10px;
-                margin: 0;
-            }
-            .container {
-                flex-direction: column;
-            }
-            .content, .sidebar {
-                flex: 1 100%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 50px 20px;
-            }
-            header h1 {
-                font-size: 2em;
-            }
-            header p {
-                font-size: 1.2em;
-            }
-            .gallery-item {
-                width: calc(50% - 20px);
-            }
-        }
-
-        @media (max-width: 576px) {
-            .gallery-item {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Hunter's Internship</h1>
-        <p>Phytoplankton Image Classification</p>
-    </header>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#weekly-blogs">Weekly Blogs</a>
-        <a href="#gallery">Gallery</a>
-    </nav>
-    <div class="container" id="home">
-        <div class="content">
-            <h2>The Internship Experience</h2>
-            <p>Hello, and welcome to my internship website! My name is Hunter John, and I want to study engineering with a focus on biomedical engineering. I am currently interning at the J. Craig Venter Institute (JCVI). My ultimate goal for this internship is to explore career options, and I believe this internship will help clarify my path in engineering or perhaps reveal new possibilities in technology and healthcare.</p>
-        </div>
-        <div class="sidebar">
-            <img src="https://github.com/sturben/hunter-internship-website/raw/main/jcvi.png" alt="JCVI Building">
-        </div>
+<footer class="footer">
+  <div class="footer__grid">
+    <div>
+      <h2>Hunter John</h2>
+      <p>
+        An archive of my 2024 high school internship at the J. Craig Venter Institute,
+        classifying diatoms and monitoring algal blooms.
+      </p>
     </div>
-    <div class="container" id="what-im-doing">
-        <div class="sidebar">
-            <img src="https://github.com/sturben/hunter-internship-website/raw/main/proxy-image.jpg" alt="Diatoms">
-        </div>
-        <div class="content">
-            <h2>What I'm Doing</h2>
-            <p>At my internship at the J. Craig Venter Institute (JCVI), I am involved in a project focused on the image classification of phytoplankton, specifically concentrating on diatoms and monitoring algal blooms. My role includes using advanced imaging and computational techniques to analyze images of these microorganisms. The data collected helps in identifying and cataloging different species of diatoms, which are a key component of phytoplankton and play a crucial role in aquatic ecosystems.</p>
-            <p>Additionally, my work assists in tracking and studying the development of algal blooms, which can have significant environmental impacts, such as affecting water quality and marine life. This involves applying mathematical models and machine learning algorithms to improve the detection and understanding of these phenomena, supporting broader environmental research and management efforts.</p>
-        </div>
+    <div class="footer__meta">
+      <p>
+        &copy; 2024 Hunter John<br>
+        Header photograph by <a href="https://unsplash.com/@noaa" rel="noopener">NOAA</a> on
+        <a href="https://unsplash.com/" rel="noopener">Unsplash</a>
+      </p>
     </div>
-    <div class="container" id="weekly-blogs">
-        <div class="content">
-            <h2>Weekly Blogs</h2>
-            <div class="blog-entry">
-                <h3>Week 1</h3>
-                <p>Blog content for week 1...</p>
-            </div>
-            <div class="blog-entry">
-                <h3>Week 2</h3>
-                <p>Blog content for week 2...</p>
-            </div>
-            <!-- Add more blog entries as needed -->
-        </div>
-    </div>
-    <div class="container" id="gallery">
-        <div class="content">
-            <h2>Gallery</h2>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="path/to/your/image3.jpg" alt="Gallery Image 1">
-                    <p>Brief description of image 1</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="path/to/your/image4.jpg" alt="Gallery Image 2">
-                    <p>Brief description of image 2</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="path/to/your/image5.jpg" alt="Gallery Image 3">
-                    <p>Brief description of image 3</p>
-                </div>
-                <!-- Add more gallery items as needed -->
-            </div>
-        </div>
-    </div>
-    <footer>
-        <p>&copy; 2024 Hunter John</p>
-    </footer>
+  </div>
+</footer>
 
-    <script>
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged image">
+  <figure style="margin:0;position:relative">
+    <button class="lightbox__close" type="button" data-close aria-label="Close">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+    <figcaption id="lightbox-cap"></figcaption>
+  </figure>
+</dialog>
+
+<script>
+(() => {
+  "use strict";
+
+  /* Nav background once scrolled past the top */
+  const nav = document.getElementById("nav");
+  const onScroll = () => nav.toggleAttribute("data-scrolled", window.scrollY > 24);
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* Reveal on scroll */
+  const reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      }
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+    reveals.forEach((el) => io.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add("is-in"));
+  }
+
+  /* Highlight the section currently in view */
+  const links = [...document.querySelectorAll('.nav__links a[href^="#"]')];
+  const sections = links
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+
+  if (sections.length && "IntersectionObserver" in window) {
+    const seen = new Set();
+    const spy = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) seen.add(e.target);
+        else seen.delete(e.target);
+      }
+      const active = sections.find((s) => seen.has(s));
+      links.forEach((a) => {
+        const on = active && a.getAttribute("href") === "#" + active.id;
+        if (on) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }, { rootMargin: "-25% 0px -60% 0px" });
+    sections.forEach((s) => spy.observe(s));
+  }
+
+  /* Lightbox */
+  const dialog = document.getElementById("lightbox");
+  const dImg = document.getElementById("lightbox-img");
+  const dCap = document.getElementById("lightbox-cap");
+  let opener = null;
+
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-zoom]");
+    if (trigger && typeof dialog.showModal === "function") {
+      opener = trigger;
+      dImg.src = trigger.dataset.zoom;
+      dImg.alt = trigger.querySelector("img")?.alt || "";
+      dCap.innerHTML = trigger.dataset.caption || "";
+      dialog.showModal();
+      return;
+    }
+    /* Close on the close button, or on a click outside the figure */
+    if (dialog.open && (e.target.closest("[data-close]") || e.target === dialog)) {
+      dialog.close();
+    }
+  });
+
+  dialog.addEventListener("close", () => {
+    dImg.removeAttribute("src");
+    opener?.focus();
+    opener = null;
+  });
+})();
+</script>
 </body>
 </html>
